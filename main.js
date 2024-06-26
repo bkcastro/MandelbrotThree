@@ -7,18 +7,15 @@ import { MandelbrotCube } from './Mandelbrot';
 
 const stats = new Stats();
 stats.showPanel(0);
-document.body.appendChild(stats.dom);
+// document.body.appendChild(stats.dom);
 
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x808080);
 
 const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.0001, 100);
-camera.position.set(0, 1, 2);
+camera.position.set(0, 1, .1);
 
 scene.add(new THREE.HemisphereLight(0xbcbcbc, 0xa5a5a5, 3));
-
-// Helper 
-scene.add(new THREE.AxesHelper(1));
 
 // renderer
 const renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -32,7 +29,7 @@ document.body.appendChild(renderer.domElement);
 document.body.appendChild(XRButton.createButton(renderer));
 
 const controls = new OrbitControls(camera, renderer.domElement);
-controls.target = new THREE.Vector3(0, 1.5, -1);
+controls.target = new THREE.Vector3(0, 0, 0);
 
 window.addEventListener('resize', () => {
   camera.aspect = window.innerWidth / window.innerHeight;
@@ -42,8 +39,7 @@ window.addEventListener('resize', () => {
 });
 
 const mandelbrot = new MandelbrotCube();
-mandelbrot.scale.multiplyScalar(1 / 400);
-mandelbrot.position.set(0, 1.25, -0.2);
+mandelbrot.scale.multiplyScalar(1 / 300);
 scene.add(mandelbrot);
 
 const clock = new THREE.Clock();
