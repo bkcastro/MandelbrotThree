@@ -42,6 +42,18 @@ const mandelbrot = new MandelbrotCube();
 mandelbrot.scale.multiplyScalar(1 / 300);
 scene.add(mandelbrot);
 
+
+// Handle the XR session start event
+renderer.xr.addEventListener('sessionstart', () => {
+  mandelbrot.position.set(0, 1.25, -0.5);
+});
+
+// Handle the XR session end event
+renderer.xr.addEventListener('sessionend', () => {
+  console.log('XR Session ended');
+  mandelbrot.position.set(0, 0, 0);
+});
+
 const clock = new THREE.Clock();
 
 function animate() {
