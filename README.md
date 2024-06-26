@@ -13,7 +13,9 @@ MandelbrotThreeJS is a simple ThreeJS application that visualizes a Mandelbrot s
 
 ## Demo
 
-You can view a live demo of the application [here](https://example.com/demo).
+Uploading colors-c.mov…
+
+<img width="780" alt="Screenshot 2024-06-26 at 21 22 37" src="https://github.com/Immersive-Collective/MandelbrotThree/assets/27820237/78778f08-92a7-4374-9798-d495dd1367ec">
 
 ## Installation
 
