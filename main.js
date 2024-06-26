@@ -57,14 +57,11 @@ renderer.xr.addEventListener('sessionend', () => {
 const clock = new THREE.Clock();
 
 function animate() {
-  stats.begin();
 
   const elapsedTime = clock.getElapsedTime();
   mandelbrot.update(elapsedTime);
   controls.update();
   renderer.render(scene, camera);
-
-  stats.end();
 }
 
 animate();
