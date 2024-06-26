@@ -5,33 +5,39 @@ const vertexShader = `
 
     void main() {
         vPosition = position;
-        gl_PointSize = 1.25;
+        gl_PointSize = 2.0;
         gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
     }
 `;
 
 const fragmentShader = `
-    precision mediump float;
-    varying vec3 vPosition;
-    uniform vec3 uCenterColor;
-    uniform vec3 uOuterColor;
+precision mediump float;
+varying vec3 vPosition;
+uniform float uTime;
 
-    void main() {
-        vec2 coord = gl_PointCoord * 2.0 - 1.0;
-        float distance = length(coord);
+vec3 hsv2rgb(vec3 c) {
+    vec4 K = vec4(1.0, 2.0/3.0, 1.0/3.0, 3.0);
+    vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);
+    return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
+}
 
-        if (distance > 1.0) {
-            discard;
-        }
+void main() {
+    vec2 coord = gl_PointCoord * 2.0 - 1.0;
+    float distance = length(coord);
 
-        float distanceFromCenter = length(vPosition - vec3(0, 0, 0));
-        float gradient = distanceFromCenter;
-        vec3 color = mix(uCenterColor, uOuterColor, gradient);
-
-        gl_FragColor = vec4(color, 1.0);
+    if (distance > 1.0) {
+        discard;
     }
-`;
 
+    float distanceFromCenter = length(vPosition - vec3(0.0));
+    float scale = 0.5 + 0.5 * sin(uTime * 0.5); // Add time-based scale change
+    float hue = mod(distanceFromCenter * 0.1 * scale + sin(uTime) * 0.5, 1.0); // Smoother hue change
+    vec3 color = hsv2rgb(vec3(hue, 1.0, 1.0));
+
+    gl_FragColor = vec4(color, 1.0);
+}
+
+`;
 
 function generateMandelbrot3D(width, height, depth, maxIterations) {
     const geometry = new THREE.BufferGeometry();
@@ -75,11 +81,10 @@ export class MandelbrotCube extends THREE.Object3D {
     constructor() {
         super();
 
-        const mandelbrotGeometry = generateMandelbrot3D(100, 100, 100, 100);
+        const mandelbrotGeometry = generateMandelbrot3D(100, 100, 100, 300);
         const particleMaterial = new THREE.ShaderMaterial({
             uniforms: {
-                uCenterColor: { value: new THREE.Color(0xff0000) },
-                uOuterColor: { value: new THREE.Color(0x000000) },
+                uTime: { value: 0.0 }
             },
             vertexShader: vertexShader,
             fragmentShader: fragmentShader,
@@ -90,7 +95,10 @@ export class MandelbrotCube extends THREE.Object3D {
 
     update(time) {
         this.rotation.x = Math.sin(time / 20);
-        this.rotation.y = Math.sin(time / 10);
+        this.rotation.y = Math.sin(time / 20);
         this.rotation.z = Math.sin(time / 20);
+
+        this.points.material.uniforms.uTime.value = time * 1; // Update the time uniform
     }
 }
+
