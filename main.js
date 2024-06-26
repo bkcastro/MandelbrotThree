@@ -28,6 +28,7 @@ renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setAnimationLoop(animate);
 renderer.xr.enabled = true;
+renderer.xr.setFoveation(0.0)
 document.body.appendChild(renderer.domElement);
 
 document.body.appendChild(XRButton.createButton(renderer));
@@ -45,8 +46,8 @@ window.addEventListener('resize', () => {
 // 
 
 const mandelbort = new MandelbrotCube();
-mandelbort.scale.multiplyScalar(1 / 150);
-mandelbort.position.set(0, 1.5, -1);
+mandelbort.scale.multiplyScalar(1 / 400);
+mandelbort.position.set(0, 1.25, -.2);
 scene.add(mandelbort);
 
 // 
