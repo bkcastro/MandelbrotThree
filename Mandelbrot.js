@@ -5,7 +5,7 @@ const vertexShader = `
 
     void main() {
         vPosition = position;
-        gl_PointSize = 2.0;
+        gl_PointSize = 1.25;
         gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
     }
 `;
@@ -90,7 +90,7 @@ export class MandelbrotCube extends THREE.Object3D {
 
     update(time) {
         this.rotation.x = Math.sin(time / 20);
-        this.rotation.y = Math.sin(time / 20);
+        this.rotation.y = Math.sin(time / 10);
         this.rotation.z = Math.sin(time / 20);
     }
 }

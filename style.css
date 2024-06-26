@@ -12,3 +12,16 @@ canvas {
   width: 100vw;
   height: 100vh;
 }
+
+a {
+  color: rgb(201, 23, 23);
+}
+
+.bottom-right {
+  position: absolute;
+  text-align: center;
+  bottom: 0;
+  right: 0;
+  margin: 5px;
+  margin-right: 10px;
+}

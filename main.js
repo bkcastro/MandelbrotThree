@@ -13,14 +13,9 @@ const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x808080);
 
 const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.0001, 100);
-camera.position.set(0, 1, 2);
+camera.position.set(0, 0, 2.5);
 
 scene.add(new THREE.HemisphereLight(0xbcbcbc, 0xa5a5a5, 3));
-
-// Helper 
-scene.add(
-  new THREE.AxesHelper(1)
-);
 
 // renderer
 const renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -28,13 +23,12 @@ renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setAnimationLoop(animate);
 renderer.xr.enabled = true;
-renderer.xr.setFoveation(0.0)
 document.body.appendChild(renderer.domElement);
 
 document.body.appendChild(XRButton.createButton(renderer));
 
 const controls = new OrbitControls(camera, renderer.domElement);
-controls.target = new THREE.Vector3(0, 1.5, -1);
+controls.target = new THREE.Vector3(0, 0, 0);
 
 window.addEventListener('resize', () => {
   camera.aspect = window.innerWidth / window.innerHeight;
@@ -46,8 +40,7 @@ window.addEventListener('resize', () => {
 // 
 
 const mandelbort = new MandelbrotCube();
-mandelbort.scale.multiplyScalar(1 / 400);
-mandelbort.position.set(0, 1.25, -.2);
+mandelbort.scale.multiplyScalar(1 / 150);
 scene.add(mandelbort);
 
 // 
